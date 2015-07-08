@@ -78,10 +78,10 @@ for (var i = 0; i < arr.length; i++) {
 		document.head.appendChild(script);
 	}
 };
-document.body.innerHTML = script.src;
+document.body.innerHTML += script.src;
 function showIt(data) {
 	alert(JSON.stringify(data));
-	document.body.innerHTML = 'Hello ' + data.nickname + '<br>' +
+	document.body.innerHTML += 'Hello ' + data.nickname + '<br>' +
 		'welcome to ' + data.country + data.province + data.city + 
 		'here is your face <br><img src=' + data.headimgurl + '>';
 }
