@@ -1,10 +1,31 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,target-densitydpi=high-dpi,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<title>weixin</title>
+	<style type="text/css">
+	html,body{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#container{
+		position: relative;
+		width: 100%;
+		height: 100%;
+		padding: 1em;
+	}
+	#container img{
+		width: 80%;
+	}
+	</style>
 </head>
 <body>
-    测试jiujiu
+    <div id="container">
+    	登陆失败
+    </div>
 </body>
 <script type="text/javascript">
 // WgateJs = {};
@@ -68,7 +89,7 @@
 // {'openid''nickname''sex''language''city''headimageurl'}
 
 
-
+// 通过我wgateid获取当前用户的信息
 var script = document.createElement('script');
 var arr = location.search.slice(1).split('&');
 for (var i = 0; i < arr.length; i++) {
@@ -78,12 +99,20 @@ for (var i = 0; i < arr.length; i++) {
 		document.head.appendChild(script);
 	}
 };
-document.body.innerHTML += script.src;
+// 显示信息
+var container = document.getElementById('container');
+var replacestr = '<p>{content}</p>';
 function showIt(data) {
-	alert(JSON.stringify(data));
-	document.body.innerHTML += 'Hello ' + data.nickname + '<br>' +
-		'welcome to ' + data.country + data.province + data.city + 
-		'here is your face <br><img src=' + data.headimgurl + '>';
+	// alert(JSON.stringify(data));
+	container.innerHTML = replacestr.replace('{content}','欢迎来到惊悚乐园');
+	container.innerHTML += replacestr.replace('{content}','公民ID：' + data.openid);
+	container.innerHTML += replacestr.replace('{content}','角色名称:' + data.nickname);
+	container.innerHTML += replacestr.replace('{content}','生成地点:'+data.country+data.province+data.city);
+	container.innerHTML += replacestr.replace('{content}','角色头像');
+	container.innerHTML += '<img src="' + data.headimgurl + '">';
+	// document.body.innerHTML = 'Hello ' + data.nickname + '<br>' +
+	// 	'welcome to ' + data.country + data.province + data.city + 
+	// 	'here is your face <br><img src=' + data.headimgurl + '>';
 }
 </script>
 
