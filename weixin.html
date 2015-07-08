@@ -1,0 +1,90 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>weixin</title>
+</head>
+<body>
+    测试jiujiu
+</body>
+<script type="text/javascript">
+// WgateJs = {};
+// WgateJs.auto_auth = true;
+// WgateJs.gate_options = {
+// 	force: 1,
+// 	info: "basic"
+// };
+// WgateJs.ready = function() {
+// 	var wgateid = WgateJs.getWgateid();
+// 	WgateJs.getWgateUser(function(user) {
+// 		console.info(user)
+// 	});
+// }
+// WgateJs.__wgate_id = "";
+// WgateJs.__wgate_site_id = "841";
+// WgateJs.getWgateid = function() {
+// 	return WgateJs.__wgate_id == "" ? null : WgateJs.__wgate_id;
+// };
+// WgateJs.getWgateUser = function(callback) {
+// 	wgate_user_jsonp_callback = function(data) {
+// 		callback(data);
+// 	}
+// 	var script = document.createElement('script');
+// 	script.src = 'http://www.weixingate.com/wgate_user.php?wgateid=' + WgateJs.getWgateid() + '&jsonp_callback=wgate_user_jsonp_callback'
+// 	document.getElementsByTagName('head')[0].appendChild(script);
+// }
+// WgateJs.process = function() {
+// 	var serialize = function(obj, prefix) {
+// 		var str = [];
+// 		for (var p in obj) {
+// 			if (obj.hasOwnProperty(p)) {
+// 				var k = prefix ? prefix + "[" + p + "]" : p,
+// 					v = obj[p];
+// 				str.push(typeof v == "object" ? serialize(v, k) : encodeURIComponent(k) + "=" + encodeURIComponent(v));
+// 			}
+// 		}
+// 		return str.join("&");
+// 	};
+// 	if (WgateJs.auto_auth == true && WgateJs.__wgate_id == "") {
+// 		var qs = WgateJs.gate_options || {};
+// 		qs.back = location.href;
+// 		if (WgateJs.unforce_auth == true) qs.force = 0;
+// 		if (WgateJs.no_authid == true) qs.noauth = 1;
+// 		location.href = "http://www.weixingate.com/gate.php?" + serialize(qs);
+// 		return ;
+// 	}
+// 	if (WgateJs.ready) WgateJs.ready();
+// };
+// WgateJs.process();
+
+
+
+
+// 使用方法
+// 说明文档-----http://www.weixingate.com/
+// 最简单的使用方法
+// http://www.weixingate.com/gate.php?back=url&force=1
+// 如：http://www.weixingate.com/gate.php?back=http%3A//localhost/Weixin.html&force=1
+// 访问这个网址，然后用户对它授权，之后它就能跳转到你需要的页面的哦！，而且还带着用户数据
+// {'openid''nickname''sex''language''city''headimageurl'}
+
+
+
+var script = document.createElement('script');
+var arr = location.search.slice(1).split('&');
+for (var i = 0; i < arr.length; i++) {
+	if(arr[i].split('=')[0] == 'wgateid') {
+		script.type = 'text/javascript';
+		script.src = 'http://www.weixingate.com/wgate_user.php?' + arr[i] + '&jsonp_callback=showIt';
+		document.head.appendChild(script);
+	}
+};
+document.body.innerHTML = script.src;
+function showIt(data) {
+	alert(JSON.stringify(data));
+	document.body.innerHTML = 'Hello ' + data.nickname + '<br>' +
+		'welcome to ' + data.country + data.province + data.city + 
+		'here is your face <br><img src=' + data.headimgurl + '>';
+}
+</script>
+
+</html>
