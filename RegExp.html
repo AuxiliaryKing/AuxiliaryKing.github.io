@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style type="text/css">
+	body {
+		text-align: center;
+	}
+	textarea {
+		width: 100%;
+		height: 10em;
+		resize: none;
+	}
+	input[type=text] {
+		display: block;
+		width: 80%;
+		margin: auto;
+		margin-top: 1em;
+	}
+	input[type=button] {
+		margin: auto;
+		margin-top: 1em;
+	}
+	.result {
+		height: 20em;
+		margin-top: 1em;
+	}
+	</style>
+</head>
+<body>
+	<textarea id="in"></textarea>
+	<input id="reg" type="text" placeholder="表达式">
+	<input id="rep" type="text" placeholder="替换词">
+	<input type="button" value="match" onclick="match()">
+	<input type="button" value="replace" onclick="replace()">
+	<textarea id="out" class="result"></textarea>
+</body>
+<script type="text/javascript">
+var res = document.getElementById('in');
+var des = document.getElementById('out');
+var reg = document.getElementById('reg');
+var rep = document.getElementById('rep');
+
+function match () {
+	var regexp = new RegExp(reg.value,'ig');
+	var val = res.value;
+	var arr = val.match(regexp);
+	if(arr == null) {
+		des.value = '无匹配项！';
+		return;
+	}
+	des.value = '已匹配' + arr.length + '项\n\n';
+	for (var i = 0; i < arr.length; i++) {
+		des.value += (i + 1) + '\n' + arr[i] + '\n\n';
+	};
+}
+</script>
+</html>
+<!-- 
+一个没有镶嵌div的div匹配
+<div[^>]*class="song-content"[^>]*>(.|\n)*?</div>
+
+data-musicicon='[^']*'
+
+ -->
