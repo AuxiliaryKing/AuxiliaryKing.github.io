@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>代码进制转换</title>
+	<style type="text/css">
+	textarea{
+		width: 100%;
+		height: 10em;
+		resize: none;
+	}
+	</style>
+</head>
+<body>
+	<textarea id="in"></textarea>
+	<label>进制</label><input id="jinzhi" type="text" value="16"><br>
+	<label>地点</label><input id="point" type="text" value="html"><br>
+	<button onclick="encode()">加密</button>
+	<button onclick="decode()">解密</button>
+	<hr>
+	<textarea id="out"></textarea>
+	<script type="text/javascript">
+	var input = document.getElementById('in');
+	var output = document.getElementById('out');
+	var jinzhi = document.getElementById('jinzhi');
+	var point = document.getElementById('point');
+	var prefix = {
+		html: {
+			16: '&#x',
+			10: '&#'
+		},
+		js: {
+			16: '\\x',
+			8: '\\'
+		}
+	};
+	function encode() {
+		var left = prefix[point.value.toLowerCase()][jinzhi.value];
+		var ans = Code.encode(input.value, jinzhi.value, left, ';', 4);
+		output.value = ans;
+	}
+	function decode() {
+		var left = prefix[point.value.toLowerCase()][jinzhi.value];
+		var ans = Code.decode(input.value, jinzhi.value, ';', left);
+		output.value = ans;
+	}
+	</script>
+	<script type="text/javascript">
+	var Code = {};
+	Code.encode = function(str, jinzhi, left, right, digit) {
+		left = left || '';
+		right = right || '';
+		digit = digit || 0;
+		var ret = '';
+		var bu = 0;
+		for (var i = 0; i < str.length; i++) {
+			var s = str.charCodeAt(i).toString(jinzhi);
+			bu = digit - String(s).length + 1;
+			if (bu < 1)
+				bu = 0;
+			ret += left + new Array(bu).join('0') + s + right;
+		};
+		return ret;
+	}
+	Code.decode = function(str, jinzhi, s_split, s_replace) {
+		if (s_replace) {
+			var reg = new RegExp(s_replace, 'g');
+			str = str.replace(reg, '');
+		}
+		var arr_s = str.split(s_split);
+		var ret = '';
+		for (var i = 0; i < arr_s.length; i++) {
+			if (arr_s[i]) {
+				ret += String.fromCharCode(parstInt(arr_s[i], jinzhi));
+			}
+		};
+		return ret;
+	}
+	</script>
+</body>
+</html>
